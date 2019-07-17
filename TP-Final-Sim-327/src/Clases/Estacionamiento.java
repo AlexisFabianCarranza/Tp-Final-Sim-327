@@ -10,7 +10,7 @@ package Clases;
  * @author aleex
  */
 public class Estacionamiento{
-    private int numeroEstacionamiento; //12estacionamientos
+    private int numeroEstacionamiento; //12 estacionamientos
     private String estado; // Libre("L") Con remanente ("CR") Ocupado ("O")
     private double finTmpOcupacion;
     private double finTmpParquimetro;
@@ -55,6 +55,10 @@ public class Estacionamiento{
 
     public void ponerLibre() {
         this.estado = "L";
+        if (this.finTmpOcupacion = this.finTmpParquimetro){
+          this.finTmpParquimetro = null;
+        }
+        this.finTmpOcupacion = null;
     }
 
     public void ponerConRemanente(){

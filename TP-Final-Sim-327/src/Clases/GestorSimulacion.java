@@ -110,7 +110,6 @@ public class GestorSimulacion {
 
     public void simularLlegadaAutomovil(){
         this.reloj = this.llegadaAutomovil.getHoraEvento();
-        this.contadorVehiculos = 0;
         this.llegadaAutomovil.generarProxLlegada(this.reloj);
         boolean encontroLugar = false;
         for (int i  = 0 ; i < this.estacionamientos.count(); i++){
@@ -129,21 +128,23 @@ public class GestorSimulacion {
                 break;
             }
         }
+        // Actualizacion de contadores
         if (not encontroLugar) {
           this.contadorVehiculosSinLugar += 1;
         }
-
+        this.contadorVehiculos = 0;
     }
 
     public void simularFinTiempoOcupacion(){
       Estacionamiento estActual = this.eventos.get(0);
       this.reloj = estActual.getHoraEvento();
-
+      estActual.ponerLibre();
     }
 
     public void simularFinParquimetro(){
       Estacionamiento estActual = this.eventos.get(0);
       this.reloj = estActual.getHoraEvento();
+      if (estActual.getFinTmpOcupacion > )
     }
 
     public String buscarProximoEvento(){
