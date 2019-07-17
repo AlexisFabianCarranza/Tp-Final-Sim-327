@@ -11,11 +11,11 @@ package Clases;
  */
 public class Estacionamiento{
     private int numeroEstacionamiento; //12estacionamientos
-    private String estado; // Libre("L") Con remanente ("CR") Ocupado ("O") 
+    private String estado; // Libre("L") Con remanente ("CR") Ocupado ("O")
     private double finTmpOcupacion;
     private double finTmpParquimetro;
 
-    
+
     public Estacionamiento(int numeroEstacionamiennto) {
         this.numeroEstacionamiento = numeroEstacionamiennto;
         this.ponerLibre();
@@ -28,7 +28,7 @@ public class Estacionamiento{
     public void setNumeroEstacionamiento(int numeroEstacionamiento) {
         this.numeroEstacionamiento = numeroEstacionamiento;
     }
-    
+
     public String getEstado() {
         return estado;
     }
@@ -56,16 +56,24 @@ public class Estacionamiento{
     public void ponerLibre() {
         this.estado = "L";
     }
-    
+
     public void ponerConRemanente(){
         this.estado = "CR";
     }
-    
+
     public void ponerOcupado(){
         this.estado = "O";
     }
-    
-    
-    
-    
+
+    public double getHoraEvento() {
+        return (this.finTmpOcupacion < this.finTmpParquimetro) ? this.finTmpOcupacion : this.finTmpParquimetro;
+    }
+
+    public String getEvento(){
+      return (this.finTmpOcupacion < this.finTmpParquimetro) ? "FTO" : "FTP";
+    }
+
+
+
+
 }

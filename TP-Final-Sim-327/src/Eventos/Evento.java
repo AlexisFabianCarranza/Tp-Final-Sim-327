@@ -10,7 +10,7 @@ package Eventos;
  * @author aleex
  */
 public class Evento implements Comparable{
-    
+
     private double horaEvento;
 
     public double getHoraEvento() {
@@ -26,7 +26,11 @@ public class Evento implements Comparable{
         Evento otro = (Evento) t;
         return Double.compare(otro.getHoraEvento(), this.horaEvento);
     }
-    
-    
-    
+
+    public String getEvento(){
+      return "";
+    }
+
+
+
 }

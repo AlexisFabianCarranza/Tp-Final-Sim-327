@@ -37,10 +37,11 @@ public class GestorSimulacion {
     private int contadorVehiculosSinLugar;
     private int contadorVehiculos;
     private int contadorInfraccion;
-    
+
     private ArrayList<Evento> eventos;
-    
-    
+    private ArrayList<Estacionamiento> estacionamientos;
+
+
     public GestorSimulacion() {
         this.llegadaAutomovil = new LlegadaAutomovil();
         this.colocacionMoneda = new ColocacionMoneda();
@@ -61,7 +62,6 @@ public class GestorSimulacion {
         this.contadorVehiculos = 0;
         this.contadorInfraccion = 0;
         this.eventos.add(llegadaAutomovil);
-        /*
         this.eventos.add(est1);
         this.eventos.add(est2);
         this.eventos.add(est3);
@@ -74,22 +74,80 @@ public class GestorSimulacion {
         this.eventos.add(est10);
         this.eventos.add(est11);
         this.eventos.add(est12);
-        */
+        this.estacionamientos.add(est1);
+        this.estacionamientos.add(est2);
+        this.estacionamientos.add(est3);
+        this.estacionamientos.add(est4);
+        this.estacionamientos.add(est5);
+        this.estacionamientos.add(est6);
+        this.estacionamientos.add(est7);
+        this.estacionamientos.add(est8);
+        this.estacionamientos.add(est9);
+        this.estacionamientos.add(est10);
+        this.estacionamientos.add(est11);
+        this.estacionamientos.add(est12);
     }
-    
+
     public void inicarSimulacion(double horaFinSimulacion) {
         //Seteo de condiciones iniciales
         this.reloj = 0.0;
         this.llegadaAutomovil.generarProxLlegada(this.reloj);
-        
+
         //Comienzo formal de la simulacion
         while (this.reloj <= horaFinSimulacion) {
-            
-            
+            String proxEvento = this.buscarProximoEvento();
+            switch (buscarProximoEvento)  {
+              case "LLA":
+                this.simularLlegadaAutomovil();
+              case "FTO":
+                this.simularFinTiempoOcupacion();
+              case "FTP":
+                this.simularFinParquimetro();
+            }
+
         }
     }
-    
-    public void buscarProximoEvento(){
 
+    public void simularLlegadaAutomovil(){
+        this.reloj = this.llegadaAutomovil.getHoraEvento();
+        this.contadorVehiculos = 0;
+        this.llegadaAutomovil.generarProxLlegada(this.reloj);
+        boolean encontroLugar = false;
+        for (int i  = 0 ; i < this.estacionamientos.count(); i++){
+            Estacionamiento estActual = this.estacionamientos.get(i);
+            if (estActual.getEstado() = "L") {
+                encontroLugar = true;
+                this.tiempoEstacionamiento.generarTiempoParquimetro();
+                this.tiempoEstacionamiento.generarTiempoOcupacion();
+                estActual.setFinTmpOcupacion(
+                    this.tiempoEstacionamiento.getFinTmpOcupacion + this.reloj
+                );
+                estActual.setFinTmpParquimetro(
+                    this.tiempoEstacionamiento.getFinTmpParquimetro + this.reloj
+                );
+                estActual.ponerOcupado();
+                break;
+            }
+        }
+        if (not encontroLugar) {
+          this.contadorVehiculosSinLugar += 1;
+        }
+
+    }
+
+    public void simularFinTiempoOcupacion(){
+      Estacionamiento estActual = this.eventos.get(0);
+      this.reloj = estActual.getHoraEvento();
+
+    }
+
+    public void simularFinParquimetro(){
+      Estacionamiento estActual = this.eventos.get(0);
+      this.reloj = estActual.getHoraEvento();
+    }
+
+    public String buscarProximoEvento(){
+        Collections.sort(this.eventos);
+        return this.eventos.get(0).getEvento();
     }
 }
