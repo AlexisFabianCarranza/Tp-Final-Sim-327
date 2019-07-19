@@ -5,6 +5,8 @@
  */
 package Clases;
 
+import Eventos.Evento;
+import java.util.ArrayList;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,7 +16,7 @@ import javafx.beans.property.SimpleStringProperty;
  * @author aleex
  */
 public class VectorEstadoView {
-    
+    private ArrayList<String> strings;
     private String reloj;
     //Llegada de automovil
     private String rndLlegadaAutomovil;
@@ -73,64 +75,114 @@ public class VectorEstadoView {
     private String contVehiculos;
     private String contInfracciones;
     private String acumTiempoInfracciones;
-    
 
     public VectorEstadoView(VectorEstado v) {
-        this.reloj = String.valueOf(v.getReloj());
-        this.rndLlegadaAutomovil = String.valueOf(v.getRndLlegadaAutomovil());
-        this.tiempoLlegadaAutomovil = String.valueOf(v.getTiempoLlegadaAutomovil());
-        this.proximaLlegada = String.valueOf(v.getProximaLlegada());
-        this.rndParq = String.valueOf(v.getRndParq());
-        this.tiempoParquimetro = String.valueOf(v.getTiempoParquimetro());
-        this.rndOcup = String.valueOf(v.getRndOcup());
-        this.tiempoOcupacion1 = String.valueOf(v.getTiempoOcupacion1());
-        this.tiempoOcupacion2 = String.valueOf(v.getTiempoOcupacion2());
-        this.tiempoOcupacion3 = String.valueOf(v.getTiempoOcupacion3());
-        this.rndMonedas = String.valueOf(v.getRndMonedas());
-        this.colocaMonedas = String.valueOf(v.getColocaMonedas());
-        this.est1 = String.valueOf(v.getEst1());
-        this.finOcupacion1 = String.valueOf(v.getFinOcupacion1());
-        this.finParquimetro1 = String.valueOf(v.getFinParquimetro1());
-        this.est2 = String.valueOf(v.getEst2());
-        this.finOcupacion2 = String.valueOf(v.getFinOcupacion2());
-        this.finParquimetro2 = String.valueOf(v.getFinParquimetro2());
-        this.est3 = String.valueOf(v.getEst3());
-        this.finOcupacion3 = String.valueOf(v.getFinOcupacion3());
-        this.finParquimetro3 = String.valueOf(v.getFinParquimetro3());
-        this.est4 = String.valueOf(v.getEst4());
-        this.finOcupacion4 = String.valueOf(v.getFinOcupacion4());
-        this.finParquimetro4 = String.valueOf(v.getFinParquimetro4());
-        this.est5 = String.valueOf(v.getEst5());
-        this.finOcupacion5 = String.valueOf(v.getFinOcupacion5());
-        this.finParquimetro5 = String.valueOf(v.getFinParquimetro5());
-        this.est6 = String.valueOf(v.getEst6());
-        this.finOcupacion6 = String.valueOf(v.getFinOcupacion6());
-        this.finParquimetro6 = String.valueOf(v.getFinParquimetro6());
-        this.est7 = String.valueOf(v.getEst7());
-        this.finOcupacion7 = String.valueOf(v.getFinOcupacion7());
-        this.finParquimetro7 = String.valueOf(v.getFinParquimetro7());
-        this.est8 = String.valueOf(v.getEst8());
-        this.finOcupacion8 = String.valueOf(v.getFinOcupacion8());
-        this.finParquimetro8 = String.valueOf(v.getFinParquimetro8());
-        this.est9 = String.valueOf(v.getEst9());
-        this.finOcupacion9 = String.valueOf(v.getFinOcupacion9());
-        this.finParquimetro9 = String.valueOf(v.getFinParquimetro9());
-        this.est10 = String.valueOf(v.getEst10());
-        this.finOcupacion10 = String.valueOf(v.getFinOcupacion10());
-        this.finParquimetro10 = String.valueOf(v.getFinParquimetro10());
-        this.est11 = String.valueOf(v.getEst11());
-        this.finOcupacion11 = String.valueOf(v.getFinOcupacion11());
-        this.finParquimetro11 = String.valueOf(v.getFinParquimetro11());
-        this.est12 = String.valueOf(v.getEst12());
-        this.finOcupacion12 = String.valueOf(v.getFinOcupacion12());
-        this.finParquimetro12 = String.valueOf(v.getFinParquimetro12());;
-        
+        this.reloj = String.format("%.2f", v.getReloj());
+        this.rndLlegadaAutomovil = String.format("%.2f", v.getRndLlegadaAutomovil());
+        this.tiempoLlegadaAutomovil = String.format("%.2f", v.getTiempoLlegadaAutomovil());
+        this.proximaLlegada = String.format("%.2f", v.getProximaLlegada());
+        this.rndParq = String.format("%.2f", v.getRndParq());
+        this.tiempoParquimetro = String.format("%.2f", v.getTiempoParquimetro());
+        this.rndOcup = String.format("%.2f", v.getRndOcup());
+        this.tiempoOcupacion1 = String.format("%.2f", v.getTiempoOcupacion1());
+        this.tiempoOcupacion2 = String.format("%.2f", v.getTiempoOcupacion2());
+        this.tiempoOcupacion3 = String.format("%.2f", v.getTiempoOcupacion3());
+        this.rndMonedas = String.format("%.2f", v.getRndMonedas());
+        this.colocaMonedas = v.getColocaMonedas() == 1 ? "SI": "NO";
+        this.est1 = v.getEst1();
+        this.finOcupacion1 = String.format("%.2f", v.getFinOcupacion1());
+        this.finParquimetro1 = String.format("%.2f", v.getFinParquimetro1());
+        this.est2 = v.getEst2();
+        this.finOcupacion2 = String.format("%.2f", v.getFinOcupacion2());
+        this.finParquimetro2 = String.format("%.2f", v.getFinParquimetro2());
+        this.est3 = v.getEst3();
+        this.finOcupacion3 = String.format("%.2f", v.getFinOcupacion3());
+        this.finParquimetro3 = String.format("%.2f", v.getFinParquimetro3());
+        this.est4 = v.getEst4();
+        this.finOcupacion4 = String.format("%.2f", v.getFinOcupacion4());
+        this.finParquimetro4 = String.format("%.2f", v.getFinParquimetro4());
+        this.est5 = v.getEst5();
+        this.finOcupacion5 = String.format("%.2f", v.getFinOcupacion5());
+        this.finParquimetro5 = String.format("%.2f", v.getFinParquimetro5());
+        this.est6 = v.getEst6();
+        this.finOcupacion6 = String.format("%.2f", v.getFinOcupacion6());
+        this.finParquimetro6 = String.format("%.2f", v.getFinParquimetro6());
+        this.est7 = v.getEst7();
+        this.finOcupacion7 = String.format("%.2f", v.getFinOcupacion7());
+        this.finParquimetro7 = String.format("%.2f", v.getFinParquimetro7());
+        this.est8 = v.getEst8();
+        this.finOcupacion8 = String.format("%.2f", v.getFinOcupacion8());
+        this.finParquimetro8 = String.format("%.2f", v.getFinParquimetro8());
+        this.est9 = v.getEst9();
+        this.finOcupacion9 = String.format("%.2f", v.getFinOcupacion9());
+        this.finParquimetro9 = String.format("%.2f", v.getFinParquimetro9());
+        this.est10 = v.getEst10();
+        this.finOcupacion10 = String.format("%.2f", v.getFinOcupacion10());
+        this.finParquimetro10 = String.format("%.2f", v.getFinParquimetro10());
+        this.est11 = v.getEst11();
+        this.finOcupacion11 = String.format("%.2f", v.getFinOcupacion11());
+        this.finParquimetro11 = String.format("%.2f", v.getFinParquimetro11());
+        this.est12 = v.getEst12();
+        this.finOcupacion12 = String.format("%.2f", v.getFinOcupacion12());
+        this.finParquimetro12 = String.format("%.2f", v.getFinParquimetro12());
         this.contVehiSinLugar = String.valueOf(v.getContVehiSinLugar());
         this.contVehiculos = String.valueOf(v.getContVehiculos());
         this.contInfracciones = String.valueOf(v.getContInfracciones());
-        this.acumTiempoInfracciones = String.valueOf(v.getAcumTiempoInfracciones());
+        this.acumTiempoInfracciones = String.format("%.2f", v.getAcumTiempoInfracciones());
+        /*this.strings = new ArrayList<>();
+        this.strings.add(this.acumTiempoInfracciones);
+        this.strings.add(this.colocaMonedas);
+        this.strings.add(this.contInfracciones);
+        this.strings.add(this.contVehiSinLugar);
+        this.strings.add(this.contVehiculos);
+        this.strings.add(this.est1);
+        this.strings.add(this.est10);
+        this.strings.add(this.est11);
+        this.strings.add(this.est12);
+        this.strings.add(this.est2);
+        this.strings.add(this.est3);
+        this.strings.add(this.est4);
+        this.strings.add(this.est5);
+        this.strings.add(this.est6);
+        this.strings.add(this.est7);
+        this.strings.add(this.est8);
+        this.strings.add(this.est9);
+        this.strings.add(this.finOcupacion1);
+        this.strings.add(this.finOcupacion2);
+        this.strings.add(this.finOcupacion3);
+        this.strings.add(this.finOcupacion4);
+        this.strings.add(this.finOcupacion5);
+        this.strings.add(this.finOcupacion6);
+        this.strings.add(this.finOcupacion7);
+        this.strings.add(this.finOcupacion8);
+        this.strings.add(this.finOcupacion9);
+        this.strings.add(this.finOcupacion10);
+        this.strings.add(this.finOcupacion11);
+        this.strings.add(this.finOcupacion12);
+        this.strings.add(this.finParquimetro1);
+        this.strings.add(this.finParquimetro2);
+        this.strings.add(this.finParquimetro3);
+        this.strings.add(this.finParquimetro4);
+        this.strings.add(this.finParquimetro5);
+        this.strings.add(this.finParquimetro6);
+        this.strings.add(this.finParquimetro7);
+        this.strings.add(this.finParquimetro8);
+        this.strings.add(this.finParquimetro9);
+        this.strings.add(this.finParquimetro10);
+        this.strings.add(this.finParquimetro11);
+        this.strings.add(this.finParquimetro12);
+        this.strings.add(this.proximaLlegada);
+        this.strings.add(this.rndLlegadaAutomovil);
+        this.strings.add(this.rndMonedas);
+        this.strings.add(this.rndOcup);
+        this.strings.add(this.rndParq);
+        this.strings.add(this.tiempoLlegadaAutomovil);
+        this.strings.add(this.tiempoOcupacion1);
+        this.strings.add(this.tiempoOcupacion2);
+        this.strings.add(this.tiempoOcupacion3);
+        this.strings.add(this.tiempoParquimetro);*/
+ 
     }
-    
     
     public String getReloj() {
         return reloj;
