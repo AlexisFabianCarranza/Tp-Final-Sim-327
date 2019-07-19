@@ -24,9 +24,13 @@ public class Estacionamiento implements Comparable{
         this.numeroEstacionamiento = numeroEstacionamiennto;
         this.finOcupacion = new FinOcupacion(this);
         this.finParquimetro = new FinParquimetro(this);
-        this.ponerLibre();
+        this.estado = "L";
     }
-
+    
+    public double getRemanente(){
+        return this.tieneRemanente() ? this.finParquimetro.getHoraEvento() -this.finOcupacion.getHoraEvento() : 0;
+    }
+    
     public int getNumeroEstacionamiento() {
         return numeroEstacionamiento;
     }
@@ -39,8 +43,11 @@ public class Estacionamiento implements Comparable{
         return estado;
     }
 
-    public void ponerLibre() {
+    public void ponerLibre(double relojActual) {
         this.estado = "L";
+        if (relojActual >= this.finParquimetro.getHoraEvento()){
+            this.finParquimetro.setHoraEvento(-1);
+        }
         if (this.finOcupacion.getHoraEvento() == this.finParquimetro.getHoraEvento()){
           this.finParquimetro.setHoraEvento(-1);
         }
@@ -106,6 +113,12 @@ public class Estacionamiento implements Comparable{
     
     public boolean estaOcupadoConInfraccion(){
         return (this.estado == "OI") ? true : false;
+    }
+
+    void calcularRemanente() {
+        if (this.finOcupacion.getHoraEvento() < this.finParquimetro.getHoraEvento()){
+            this.ponerConRemanente();
+        }
     }
     
 }

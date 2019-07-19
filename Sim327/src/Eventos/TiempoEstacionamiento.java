@@ -39,21 +39,39 @@ public class TiempoEstacionamiento {
     }
     
     public void generarTiempoOcupacion(){
-        this.rndOcu = this.rnd.nextDouble();  
         this.tiempoOcupacion1 = 0;
         this.tiempoOcupacion2 = 0;
         this.tiempoOcupacion3 = 0;
-        if (this.rndOcu < 40) {
-            this.distUniforme = new Uniforme(0.5 * tiempoParquimetro , 0.9 * tiempoParquimetro);
-            this.tiempoOcupacion1 = (double) this.distUniforme.generarNumeros(1).get(0);
+        if (tiempoParquimetro >= 0){
+            this.rndOcu = this.rnd.nextDouble(); 
+            if (this.rndOcu < 40) {
+                this.distUniforme = new Uniforme(0.5 * tiempoParquimetro , 0.9 * tiempoParquimetro);
+                this.tiempoOcupacion1 = (double) this.distUniforme.generarNumeros(1).get(0);
+            }
+            else if (this.rndOcu < 65) {
+                this.tiempoOcupacion2 = tiempoParquimetro;
+            }
+            else {
+                this.distUniforme = new Uniforme(1.05 * tiempoParquimetro , 1.2 * tiempoParquimetro);
+                this.tiempoOcupacion3 = (double) this.distUniforme.generarNumeros(1).get(0);
+            }
         }
-        else if (this.rndOcu < 65) {
-            this.tiempoOcupacion2 = tiempoParquimetro;
+        else{
+            double rndAux  = this.rnd.nextDouble();
+            double tiempoOcupacionAux = rndAux < this.porcentajeMediaHora ? 30.0 : 60.0;
+            if (rndAux < 40) {
+                this.distUniforme = new Uniforme(0.5 * tiempoOcupacionAux , 0.9 * tiempoOcupacionAux);
+                this.tiempoOcupacion1 = (double) this.distUniforme.generarNumeros(1).get(0);
+            }
+            else if (this.rndOcu < 65) {
+                this.tiempoOcupacion2 = tiempoOcupacionAux;
+            }
+            else {
+                this.distUniforme = new Uniforme(1.05 * tiempoOcupacionAux , 1.2 * tiempoOcupacionAux);
+                this.tiempoOcupacion3 = (double) this.distUniforme.generarNumeros(1).get(0);
+            }
         }
-        else {
-            this.distUniforme = new Uniforme(1.05 * tiempoParquimetro , 1.2 * tiempoParquimetro);
-            this.tiempoOcupacion3 = (double) this.distUniforme.generarNumeros(1).get(0);
-        }
+        
     }
 
     public Random getRnd() {
@@ -129,13 +147,13 @@ public class TiempoEstacionamiento {
     }
     
     public double getFinOcupacion(){
-        if (this.tiempoOcupacion1 != -1){
+        if (this.tiempoOcupacion1 >= 0){
             return this.tiempoOcupacion1;
         }
-        if (this.tiempoOcupacion2 != -1){
+        if (this.tiempoOcupacion2 >= 0){
             return this.tiempoOcupacion2;
         }
-        if (this.tiempoOcupacion3 != -1){
+        if (this.tiempoOcupacion3 >= 0){
             return this.tiempoOcupacion3;
         }
         return -1;

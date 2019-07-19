@@ -12,8 +12,15 @@ import Eventos.FinParquimetro;
 import Eventos.LlegadaAutomovil;
 import Eventos.TiempoEstacionamiento;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import javafx.beans.InvalidationListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 /**
@@ -54,6 +61,7 @@ public class GestorSimulacion {
     private double horaHasta;
 
     public GestorSimulacion(double horaDesde, double horaHasta, double horasSimulacion) {
+        this.vectoresEstados = FXCollections.observableArrayList();;
         this.horaHasta = horaHasta;
         this.horaDesdeVER = horaDesde;
         this.horaHastaVER = horaHasta;
@@ -63,7 +71,7 @@ public class GestorSimulacion {
         this.tiempoEstacionamiento = new TiempoEstacionamiento();
         this.est1 = new Estacionamiento(1);
         this.est2 = new Estacionamiento(2);
-        /*this.est3 = new Estacionamiento(3);
+        this.est3 = new Estacionamiento(3);
         this.est4 = new Estacionamiento(4);
         this.est5 = new Estacionamiento(5);
         this.est6 = new Estacionamiento(6);
@@ -72,7 +80,7 @@ public class GestorSimulacion {
         this.est9 = new Estacionamiento(9);
         this.est10 = new Estacionamiento(10);
         this.est11 = new Estacionamiento(11);
-        this.est12 = new Estacionamiento(12);*/
+        this.est12 = new Estacionamiento(12);
         this.contadorVehiculosSinLugar = 0;
         this.contadorVehiculos = 0;
         this.contadorInfraccion = 0;
@@ -80,7 +88,7 @@ public class GestorSimulacion {
         this.eventos.add(llegadaAutomovil);
         this.eventos.add(est1.getFinOcupacion());
         this.eventos.add(est1.getFinParquimetro());
-        /*this.eventos.add(est2.getFinOcupacion());
+        this.eventos.add(est2.getFinOcupacion());
         this.eventos.add(est2.getFinParquimetro());
         this.eventos.add(est3.getFinOcupacion());
         this.eventos.add(est3.getFinParquimetro());
@@ -101,11 +109,11 @@ public class GestorSimulacion {
         this.eventos.add(est11.getFinOcupacion());
         this.eventos.add(est11.getFinParquimetro());
         this.eventos.add(est12.getFinOcupacion());
-        this.eventos.add(est12.getFinParquimetro());*/
+        this.eventos.add(est12.getFinParquimetro());
         this.estacionamientos = new ArrayList<>();
         this.estacionamientos.add(est1);
         this.estacionamientos.add(est2);
-        /*this.estacionamientos.add(est3);
+        this.estacionamientos.add(est3);
         this.estacionamientos.add(est4);
         this.estacionamientos.add(est5);
         this.estacionamientos.add(est6);
@@ -114,35 +122,39 @@ public class GestorSimulacion {
         this.estacionamientos.add(est9);
         this.estacionamientos.add(est10);
         this.estacionamientos.add(est11);
-        this.estacionamientos.add(est12);*/
+        this.estacionamientos.add(est12);
     }
 
     public ObservableList<VectorEstadoView> inicarSimulacion() {
         //Seteo de condiciones iniciales
-        //this.mostrarValores();
         this.llegadaAutomovil.generarProxLlegada(this.reloj);
+        if (this.horaDesdeVER == 0.0){
+            this.actualizarVectorEstadoActual();
+        }
+         
         this.reloj = this.llegadaAutomovil.getHoraEvento();
-        //this.mostrarValores();
         //Comienzo formal de la simulacion
         while (this.reloj <= this.horaHasta) {
-            System.out.println("Reloj: " + this.reloj);
-            System.out.println("Accion: " + this.buscarProximoEvento() +"\n");
-            if (this.reloj != 0){
-                switch (this.buscarProximoEvento())  {
-                    case "LLA":
-                        this.simularLlegadaAutomovil();
-                    case "FTO":
-                        this.simularFinTiempoOcupacion();
-                    case "FTP":
-                        this.simularFinParquimetro();
+            if (this.horaHasta != 0){
+                System.out.println("Comienzo a buscar Evento");
+                System.out.println("Prox evento " +this.buscarProximoEvento());
+                String proxEvento = this.buscarProximoEvento(); 
+                if (proxEvento == this.llegadaAutomovil.getEvento()){
+                    System.out.println("Llego automovil");
+                    this.simularLlegadaAutomovil();
+                }
+                if (proxEvento == this.est1.getFinOcupacion().getEvento()){
+                    System.out.println("LLego a fin ocupacion");
+                    this.simularFinTiempoOcupacion();
+                }
+                if (proxEvento == this.est1.getFinParquimetro().getEvento()){
+                    System.out.println("Llego a fin parquimetro");
+                    this.simularFinParquimetro();
                 }
             }
-            
             //Almaceno los datos que se deben mostrar
             if ( this.reloj >= this.horaDesdeVER && this.reloj<= this.horaHastaVER) {
                 this.actualizarVectorEstadoActual();
-                VectorEstadoView v = new VectorEstadoView(this.vectorEstadoActual);
-                this.vectoresEstados.add(v);
             }
         }
         
@@ -157,17 +169,33 @@ public class GestorSimulacion {
         this.llegadaAutomovil.generarProxLlegada(this.reloj);
         boolean encontroLugar = false;
         this.ordenarEstacionamiento();
+        double remanente = 0.0;
         for (int i  = 0 ; i < this.estacionamientos.size(); i++){
             Estacionamiento estActual = this.estacionamientos.get(i);
             if (estActual.estaLibre()) {
                 encontroLugar = true;
-                this.tiempoEstacionamiento.generarTiempoParquimetro();
+                //Controlo que el estacionamiento tenga remanente
+                if (estActual.tieneRemanente()){
+                    remanente = estActual.getFinParquimetro().getHoraEvento() 
+                              - estActual.getFinOcupacion().getHoraEvento();
+                }
+                //Colcacion de la moneda
+                this.colocacionMoneda.generarColocacionMoneda();
+                if (this.colocacionMoneda.getDecision() == 1){
+                   this.tiempoEstacionamiento.generarTiempoParquimetro();
+                   estActual.getFinParquimetro().setHoraEvento(
+                           this.tiempoEstacionamiento.getTiempoParquimetro() 
+                         + this.reloj + remanente
+                    );
+                }
+                else {
+                    estActual.getFinParquimetro().setHoraEvento(
+                           remanente
+                    );
+                }
                 this.tiempoEstacionamiento.generarTiempoOcupacion();
                 estActual.getFinOcupacion().setHoraEvento(
                     this.tiempoEstacionamiento.getFinOcupacion() + this.reloj
-                );
-                estActual.getFinParquimetro().setHoraEvento(
-                    this.tiempoEstacionamiento.getTiempoParquimetro() + this.reloj
                 );
                 estActual.ponerOcupado();
                 break;
@@ -177,14 +205,20 @@ public class GestorSimulacion {
         if (!encontroLugar) {
           this.contadorVehiculosSinLugar += 1;
         }
-        this.contadorVehiculos = 0;
+        this.contadorVehiculos += 1;
+        System.out.println("Finalizo Llegada Automovil");
     }
 
     public void simularFinTiempoOcupacion(){
       FinOcupacion finOcup = (FinOcupacion) this.eventos.get(0);
       this.reloj = finOcup.getHoraEvento();
       Estacionamiento estActual = finOcup.getEst();
-      estActual.ponerLibre();
+      estActual.calcularRemanente();
+      if (estActual.tieneRemanente()){
+          this.acumTiempoInfracciones += estActual.getRemanente();
+      }
+      estActual.ponerLibre(this.reloj);
+      
     }
 
     public void simularFinParquimetro(){
@@ -196,11 +230,12 @@ public class GestorSimulacion {
           this.contadorInfraccion += 1;
           estActual.ponerOcupadoConInfraccion();
       }
+      estActual.ponerLibre(this.reloj);
     }
 
     public String buscarProximoEvento(){
         Collections.sort(this.eventos);
-        this.mostrarOrdernEventos();
+        this.mostrarOrdenEventos();
         this.reloj = this.eventos.get(0).getHoraEvento();
         return this.eventos.get(0).getEvento();
     }
@@ -240,18 +275,20 @@ public class GestorSimulacion {
                 this.contadorVehiculos, 
                 this.contadorInfraccion, 
                 this.acumTiempoInfracciones);
+        VectorEstadoView v = new VectorEstadoView(this.vectorEstadoActual);
+        this.vectoresEstados.add(v);
     }
     
     public void mostrarValores(){
         System.out.println("Reloj: " + this.reloj );
-        System.out.println("RND: " + this.llegadaAutomovil.getRndActual() );
+        System.out.print("RND: " + this.llegadaAutomovil.getRndActual() );
         System.out.println("Tmp: " + this.llegadaAutomovil.getHoraEvento());
-        System.out.println("rndparq: " + this.tiempoEstacionamiento.getRndParq());
-        System.out.println("tmpparq: " + this.tiempoEstacionamiento.getTiempoParquimetro());
-        System.out.println("rndocu: " + this.tiempoEstacionamiento.getRndOcu());
-        System.out.println("tmpOc1: " + this.tiempoEstacionamiento.getTiempoOcupacion1());
-        System.out.println("tmpOc2: " + this.tiempoEstacionamiento.getTiempoOcupacion2());
-        System.out.println("tmpOc3: " + this.tiempoEstacionamiento.getTiempoOcupacion3() );
+        System.out.print("rndparq: " + this.tiempoEstacionamiento.getRndParq());
+        System.out.print("tmpparq: " + this.tiempoEstacionamiento.getTiempoParquimetro());
+        System.out.print("rndocu: " + this.tiempoEstacionamiento.getRndOcu());
+        System.out.print("tmpOc1: " + this.tiempoEstacionamiento.getTiempoOcupacion1());
+        System.out.print("tmpOc2: " + this.tiempoEstacionamiento.getTiempoOcupacion2());
+        System.out.print("tmpOc3: " + this.tiempoEstacionamiento.getTiempoOcupacion3() );
         System.out.println("Rnd moneda: " + this.colocacionMoneda.getRndActual());
         System.out.println("decision moneda: " + this.colocacionMoneda.getDecision());
         System.out.println("Estado1: " + this.est1.getEstado());
@@ -259,9 +296,19 @@ public class GestorSimulacion {
         
     }
 
-    private void mostrarOrdernEventos() {
+    private void mostrarOrdenEventos() {
         System.out.println("1: " + this.eventos.get(0).getEvento() + " " + this.eventos.get(0).getHoraEvento());
         System.out.println("2: " + this.eventos.get(1).getEvento() + " " + this.eventos.get(1).getHoraEvento());
         System.out.println("3: " + this.eventos.get(2).getEvento() + " " + this.eventos.get(2).getHoraEvento());
+        System.out.println("4: " + this.eventos.get(3).getEvento() + " " + this.eventos.get(3).getHoraEvento());
+        System.out.println("5: " + this.eventos.get(4).getEvento() + " " + this.eventos.get(4).getHoraEvento());
+        System.out.println("6: " + this.eventos.get(5).getEvento() + " " + this.eventos.get(5).getHoraEvento());
+        System.out.println("7: " + this.eventos.get(6).getEvento() + " " + this.eventos.get(6).getHoraEvento());
+        System.out.println("8: " + this.eventos.get(7).getEvento() + " " + this.eventos.get(7).getHoraEvento());
+        System.out.println("9: " + this.eventos.get(8).getEvento() + " " + this.eventos.get(8).getHoraEvento());
+        System.out.println("10: " + this.eventos.get(9).getEvento() + " " + this.eventos.get(9).getHoraEvento());
+        System.out.println("11: " + this.eventos.get(10).getEvento() + " " + this.eventos.get(10).getHoraEvento());
+        System.out.println("12: " + this.eventos.get(11).getEvento() + " " + this.eventos.get(11).getHoraEvento());
+        System.out.println("13: " + this.eventos.get(12).getEvento() + " " + this.eventos.get(12).getHoraEvento());
     }
 }

@@ -9,144 +9,144 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane minWidth="1300" prefWidth="1350" prefHeight="700" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim327.FXMLDocumentController">
+<ScrollPane minWidth="1300" prefHeight="700" prefWidth="1350" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim327.FXMLDocumentController">
    <content>
-      <AnchorPane id="AnchorPane" prefHeight="902.0" prefWidth="3407.0">
+      <AnchorPane id="AnchorPane" prefHeight="902.0" prefWidth="2500.0">
          <children>
             <ScrollPane layoutX="24.0" layoutY="241.0">
                <content>
                   <ScrollPane>
                      <content>
-                        <TableView fx:id="tableVectorEstado" prefHeight="400.0" prefWidth="3379.0">
+                        <TableView fx:id="tableVectorEstado" prefHeight="400.0" prefWidth="2500.0">
                            <columns>
                               <TableColumn fx:id="relojColumn" minWidth="0.0" prefWidth="48.000030517578125" resizable="false" text="Reloj" />
                               <TableColumn editable="false" prefWidth="246.0" text="Llegada Automovil">
                                  <columns>
-                                    <TableColumn fx:id="rndLlegadaColumn" prefWidth="42.000030517578125" resizable="false" text="RND" />
-                                    <TableColumn fx:id="tiempoLlegadaColumn" prefWidth="51.0" resizable="false" text="Tiempo" />
-                                    <TableColumn fx:id="proximaLlegadaColumn" prefWidth="79.0" resizable="false" text="Prox Llegada" />
+                                    <TableColumn fx:id="rndLlegadaColumn" prefWidth="35.000030517578125" resizable="false" text="RND" />
+                                    <TableColumn fx:id="tiempoLlegadaColumn" prefWidth="50.0" resizable="false" text="Tiempo" />
+                                    <TableColumn fx:id="proximaLlegadaColumn" prefWidth="53.0" resizable="false" text="Proxima&#10;Llegada" />
                                  </columns>
                               </TableColumn>
-                              <TableColumn editable="false" prefWidth="86.0" resizable="false" text="T. Est. Vehiculo">
+                              <TableColumn editable="false" prefWidth="86.0" resizable="false" text="Tiempo Estacionamiento de un nuevo vehiculo">
                                  <columns>
-                                    <TableColumn fx:id="rndLlegadaColumn1" prefWidth="48.0" resizable="false" text="Tiempo Parquimetro">
+                                    <TableColumn fx:id="rndLlegadaColumn1" prefWidth="48.0" resizable="false" text="    Tiempo&#10;Parquimetro">
                                        <columns>
-                                          <TableColumn fx:id="rndParColumn" prefWidth="65.0" resizable="false" text="RND" />
-                                          <TableColumn fx:id="tmpParqColumn" prefWidth="65.0" resizable="false" text="Tmp/Parq" />
+                                          <TableColumn fx:id="rndParColumn" prefWidth="39.0" resizable="false" text="RND" />
+                                          <TableColumn fx:id="tmpParqColumn" prefWidth="51.0" resizable="false" text="Tiempo" />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn fx:id="tiempoLlegadaColumn11" prefWidth="75.0" resizable="false" text="Tiempo de Ocupacion">
                                        <columns>
-                                          <TableColumn fx:id="rndOcupColumn" prefWidth="48.0" resizable="false" text="RND" />
-                                          <TableColumn fx:id="rndLlegadaColumn111" prefWidth="102.0" resizable="false" text="1 ( 0 - 0.45)">
+                                          <TableColumn fx:id="rndOcupColumn" prefWidth="38.0" resizable="false" text="RND" />
+                                          <TableColumn fx:id="rndLlegadaColumn111" prefWidth="78.0" resizable="false" text="       1 &#10;( 0 - 0.45)">
                                              <columns>
-                                                <TableColumn fx:id="tmpOcup1Column" prefWidth="102.0" resizable="false" text="Unif(50-90)" />
+                                                <TableColumn fx:id="tmpOcup1Column" prefWidth="70.0" resizable="false" text="Uniforme&#10;(50-90)" />
                                              </columns>
                                           </TableColumn>
-                                          <TableColumn fx:id="rndLlegadaColumn1111" prefWidth="102.0" resizable="false" text="2 ( 0.45- 0.65)">
+                                          <TableColumn fx:id="rndLlegadaColumn1111" prefWidth="118.0" resizable="false" text="         2   &#10;( 0.45- 0.65)">
                                              <columns>
-                                                <TableColumn fx:id="tmpOcup2Column" prefWidth="102.0" resizable="false" text="Total Del tiempo" />
+                                                <TableColumn fx:id="tmpOcup2Column" prefWidth="88.0" resizable="false" text="Tiempo &#10;total &#10;ocupado" />
                                              </columns>
                                           </TableColumn>
-                                          <TableColumn fx:id="rndLlegadaColumn11112" prefWidth="102.0" resizable="false" text="3 ( 0.65 - 0.99 )">
+                                          <TableColumn fx:id="rndLlegadaColumn11112" prefWidth="102.0" resizable="false" text="          3&#10;( 0.65 - 0.99 )">
                                              <columns>
-                                                <TableColumn fx:id="tmpOcup3Column" prefWidth="102.0" resizable="false" text="Unif(105-120)" />
+                                                <TableColumn fx:id="tmpOcup3Column" prefWidth="82.0" resizable="false" text="Uniforme&#10;(105-120)" />
                                              </columns>
                                           </TableColumn>
                                        </columns>
                                     </TableColumn>
                                  </columns>
                               </TableColumn>
-                              <TableColumn editable="false" prefWidth="86.0" resizable="false" text="Coloca monedas">
+                              <TableColumn editable="false" prefWidth="86.0" resizable="false" text="Coloca &#10;monedas">
                                  <columns>
-                                    <TableColumn fx:id="rndMonedaColumn" prefWidth="48.0" resizable="false" text="RND" />
-                                    <TableColumn fx:id="colocaMonedaColumn" prefWidth="52.0" resizable="false" text="SI/NO" />
+                                    <TableColumn fx:id="rndMonedaColumn" prefWidth="34.0" resizable="false" text="RND" />
+                                    <TableColumn fx:id="colocaMonedaColumn" prefWidth="36.0" resizable="false" text="SI&#10;/NO" />
                                  </columns>
                               </TableColumn>
                               <TableColumn minWidth="0.0" prefWidth="160.0" text="Lugares de Estacionamiento">
                                  <columns>
                                     <TableColumn prefWidth="152.0" resizable="false" text="1">
                                        <columns>
-                                          <TableColumn fx:id="est1Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup1Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq1Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est1Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup1Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de&#10;Ocup." />
+                                          <TableColumn fx:id="finParq1Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="2">
                                        <columns>
-                                          <TableColumn fx:id="est2Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup2Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq2Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est2Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup2Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq2Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de&#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="3">
                                        <columns>
-                                          <TableColumn fx:id="est3Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup3Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq3Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est3Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup3Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq3Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="4">
                                        <columns>
-                                          <TableColumn fx:id="est4Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup4Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq4Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est4Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup4Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq4Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="5">
                                        <columns>
-                                          <TableColumn fx:id="est5Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup5Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq5Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est5Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup5Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq5Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="6">
                                        <columns>
-                                          <TableColumn fx:id="est6Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup6Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq6Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est6Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup6Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq6Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="7">
                                        <columns>
-                                          <TableColumn fx:id="est7Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup7Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq7Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est7Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup7Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq7Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="8">
                                        <columns>
-                                          <TableColumn fx:id="est8Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup8Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq8Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est8Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup8Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq8Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="9">
                                        <columns>
-                                          <TableColumn fx:id="est9Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup9Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq9Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est9Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup9Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq9Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="10">
                                        <columns>
-                                          <TableColumn fx:id="est10Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup10Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq10Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est10Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup10Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq10Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="11">
                                        <columns>
-                                          <TableColumn fx:id="est11Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup11Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq11Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est11Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup11Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq11Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                     <TableColumn prefWidth="152.0" resizable="false" text="12">
                                        <columns>
-                                          <TableColumn fx:id="est12Column" prefWidth="41.0" resizable="false" text="Estado" />
-                                          <TableColumn fx:id="finOcup12Column" minWidth="0.0" prefWidth="65.0" resizable="false" text="Fin Ocup." />
-                                          <TableColumn fx:id="finParq12Column" minWidth="0.0" prefWidth="72.0" resizable="false" text="Fin Parq." />
+                                          <TableColumn fx:id="est12Column" prefWidth="47.0" resizable="false" text="Estado" />
+                                          <TableColumn fx:id="finOcup12Column" minWidth="0.0" prefWidth="45.0" resizable="false" text="Fin de &#10;Ocup." />
+                                          <TableColumn fx:id="finParq12Column" minWidth="0.0" prefWidth="42.0" resizable="false" text="Fin de &#10;Parq." />
                                        </columns>
                                     </TableColumn>
                                  </columns>
@@ -164,14 +164,14 @@
                   </ScrollPane>
                </content>
             </ScrollPane>
-            <TextField fx:id="txtHorasSimulacion" layoutX="209.0" layoutY="85.0" text="1000" />
+            <TextField fx:id="txtHorasSimulacion" layoutX="209.0" layoutY="85.0" text="120" />
             <Label layoutX="34.0" layoutY="89.0" text="Cantidad de horas a simular:" />
             <Button fx:id="btnSimular" layoutX="614.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#clickBtnSimular" prefHeight="66.0" prefWidth="157.0" text="Iniciar Simulacion" />
             <Label layoutX="110.0" layoutY="121.0" text="Mostrar filas " />
             <Label layoutX="110.0" layoutY="147.0" text="Desde hora:" />
             <Label layoutX="358.0" layoutY="148.0" text="Hasta hora:" />
-            <TextField fx:id="txtHoraDesde" layoutX="209.0" layoutY="143.0" prefHeight="26.0" prefWidth="112.0" />
-            <TextField fx:id="txtHoraHasta" layoutX="438.0" layoutY="144.0" prefHeight="26.0" prefWidth="112.0" />
+            <TextField fx:id="txtHoraDesde" layoutX="209.0" layoutY="143.0" prefHeight="26.0" prefWidth="112.0" text="0" />
+            <TextField fx:id="txtHoraHasta" layoutX="438.0" layoutY="144.0" prefHeight="26.0" prefWidth="112.0" text="100" />
             <Label layoutX="530.0" layoutY="20.0" text="TP Final / Ejercicio 327">
                <font>
                   <Font name="Consolas" size="35.0" />

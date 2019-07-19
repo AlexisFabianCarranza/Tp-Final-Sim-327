@@ -21,8 +21,9 @@ public class ColocacionMoneda {
         this.rnd = new Random();
     }
     
-    public boolean colocaMoneda(){
-        return this.rnd.nextDouble() < this.probabilidadNoColocacion ? false : true;
+    public void generarColocacionMoneda(){
+        this.rndActual = this.rnd.nextDouble();
+        this.decision = this.rndActual < this.probabilidadNoColocacion ? 0 : 1;
     }
 
     public Random getRnd() {
