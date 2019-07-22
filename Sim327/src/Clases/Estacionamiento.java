@@ -27,6 +27,12 @@ public class Estacionamiento implements Comparable{
         this.estado = "L";
     }
     
+    public boolean verificaInfraccion(){
+        if (this.finOcupacion.getHoraEvento() > this.finParquimetro.getHoraEvento()){
+            return true;
+        }
+        return false;
+    }
     public double getRemanente(){
         return this.tieneRemanente() ? this.finParquimetro.getHoraEvento() -this.finOcupacion.getHoraEvento() : 0;
     }
@@ -45,17 +51,15 @@ public class Estacionamiento implements Comparable{
 
     public void ponerLibre(double relojActual) {
         this.estado = "L";
-        if (relojActual >= this.finParquimetro.getHoraEvento()){
+        if (relojActual >= this.finParquimetro.getHoraEvento()|| this.finOcupacion.getHoraEvento() == this.finParquimetro.getHoraEvento()){
             this.finParquimetro.setHoraEvento(-1);
-        }
-        if (this.finOcupacion.getHoraEvento() == this.finParquimetro.getHoraEvento()){
-          this.finParquimetro.setHoraEvento(-1);
         }
         this.finOcupacion.setHoraEvento(-1);
     }
 
     public void ponerConRemanente(){
         this.estado = "CR";
+        this.finOcupacion.setHoraEvento(-1);
     }
 
     public void ponerOcupado(){
@@ -82,23 +86,10 @@ public class Estacionamiento implements Comparable{
         this.finParquimetro = finParquimetro;
     }
     
-    @Override
-    public int compareTo(Object t) {
-        Estacionamiento otro = (Estacionamiento) t;
-        if (this.tieneRemanente() && otro.tieneRemanente()){
-            return 0;
-        }
-        else if (this.tieneRemanente()){
-            return 1;
-        }
-        else {
-            return -1;
-        }
-    }
-    
     public void ponerOcupadoConInfraccion(){
         this.estado = "OI";
     }
+    
     public boolean estaLibre() {
         return (this.estado == "L") ? true : false;
     }
@@ -115,10 +106,27 @@ public class Estacionamiento implements Comparable{
         return (this.estado == "OI") ? true : false;
     }
 
-    void calcularRemanente() {
+    void verificaRemanente() {
         if (this.finOcupacion.getHoraEvento() < this.finParquimetro.getHoraEvento()){
             this.ponerConRemanente();
         }
     }
+    @Override
+    public int compareTo(Object t) {
+        Estacionamiento otro = (Estacionamiento) t;
+        return this.tieneRemanente() ? -1 : otro.tieneRemanente() ? 1 : 0; 
+    }
+    /*@Override
+    public int compareTo(Object t) {
+        Estacionamiento otro = (Estacionamiento) t;
+        return this.tieneRemanente() ? 1 : otro.tieneRemanente() ? -1 : 0; 
+    }*
+    
+
+    /*@Override
+    public int compareTo(Object t) {
+        Estacionamiento otro = (Estacionamiento) t;
+        return this.numeroEstacionamiento < otro.numeroEstacionamiento ? 1 : -1;
+    }*/
     
 }

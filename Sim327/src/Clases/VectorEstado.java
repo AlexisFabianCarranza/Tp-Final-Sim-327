@@ -93,7 +93,7 @@ public class VectorEstado {
             double contVehiSinLugar, double contVehiculos, 
             double contInfracciones, 
             double acumTiempoInfracciones) {
-        doubles = new ArrayList<>();
+        /*doubles = new ArrayList<>();
         doubles.add(this.rndLlegadaAutomovil);
         doubles.add(this.tiempoLlegadaAutomovil);
         doubles.add(this.proximaLlegada);
@@ -129,7 +129,7 @@ public class VectorEstado {
         doubles.add(this.finParquimetro10);
         doubles.add(this.finParquimetro11);
         doubles.add(this.finParquimetro12);
-        doubles.add(this.acumTiempoInfracciones);
+        doubles.add(this.acumTiempoInfracciones);*/
         this.reloj = reloj;
         this.rndLlegadaAutomovil = rndLlegadaAutomovil;
         this.tiempoLlegadaAutomovil = tiempoLlegadaAutomovil;
@@ -182,8 +182,17 @@ public class VectorEstado {
         this.contVehiculos = contVehiculos;
         this.contInfracciones = contInfracciones;
         this.acumTiempoInfracciones = acumTiempoInfracciones;
-        this.limpiarDoubles();
+        //this.limpiarDoubles();
     }
+    
+    /*private void limpiarDoubles() {
+        System.out.println("Se ejecuto la limpieza de ceros");
+        for (int i = 0 ; i < this.doubles.size(); i++){
+            if (this.doubles.get(i) <= 0.0) {
+                this.doubles.set(i, 1000000.00);
+            }
+        }
+    }*/
 
     public void setReloj(double reloj) {
         this.reloj = reloj;
@@ -609,13 +618,7 @@ public class VectorEstado {
         return acumTiempoInfracciones;
     }
 
-    private void limpiarDoubles() {
-        for (int i = 0 ; i < this.doubles.size(); i++){
-            if (this.doubles.get(i) <= 0.0) {
-                this.doubles.set(i, null);
-            }
-        }
-    }
+    
    
     
     

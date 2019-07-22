@@ -31,6 +31,12 @@ public class TiempoEstacionamiento {
     
     public TiempoEstacionamiento() {
         this.rnd = new Random();
+        this.tiempoOcupacion1 = -1;
+        this.tiempoOcupacion2 = -1;
+        this.tiempoOcupacion3 = -1;
+        this.tiempoParquimetro = -1;
+        this.rndOcu = -1;
+        this.rndParq = -1;
     }
     
     public void generarTiempoParquimetro(){
@@ -39,16 +45,16 @@ public class TiempoEstacionamiento {
     }
     
     public void generarTiempoOcupacion(){
-        this.tiempoOcupacion1 = 0;
-        this.tiempoOcupacion2 = 0;
-        this.tiempoOcupacion3 = 0;
+        this.tiempoOcupacion1 = -1;
+        this.tiempoOcupacion2 = -1;
+        this.tiempoOcupacion3 = -1;
         if (tiempoParquimetro >= 0){
             this.rndOcu = this.rnd.nextDouble(); 
-            if (this.rndOcu < 40) {
+            if (this.rndOcu < 0.4) {
                 this.distUniforme = new Uniforme(0.5 * tiempoParquimetro , 0.9 * tiempoParquimetro);
                 this.tiempoOcupacion1 = (double) this.distUniforme.generarNumeros(1).get(0);
             }
-            else if (this.rndOcu < 65) {
+            else if (this.rndOcu < 0.65) {
                 this.tiempoOcupacion2 = tiempoParquimetro;
             }
             else {
@@ -147,16 +153,25 @@ public class TiempoEstacionamiento {
     }
     
     public double getFinOcupacion(){
-        if (this.tiempoOcupacion1 >= 0){
+        if (this.tiempoOcupacion1 > 0){
             return this.tiempoOcupacion1;
         }
-        if (this.tiempoOcupacion2 >= 0){
+        if (this.tiempoOcupacion2 > 0){
             return this.tiempoOcupacion2;
         }
-        if (this.tiempoOcupacion3 >= 0){
+        if (this.tiempoOcupacion3 > 0){
             return this.tiempoOcupacion3;
         }
         return -1;
+    }
+
+    public void limpiarTiempoEstacionamiento() {
+        this.rndOcu = -1;
+        this.rndParq = -1;
+        this.tiempoOcupacion1 = -1;
+        this.tiempoOcupacion2 = -1;
+        this.tiempoOcupacion3 = -1;
+        this.tiempoParquimetro = -1;
     }
     
     

@@ -22,7 +22,7 @@ public class Sim327 extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
-        
+        scene.getStylesheets().add(Sim327.class.getResource("/Estilo/miEstilo.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 19/07/2019, 19:35:43
+    Author     : aleex
+*/
+* {
+    dark-primary-color: #1976D2; 
+    default-primary-color: #2196F3; 
+    light-primary-color: #BBDEFB; 
+    text-primary-color: #FFFFFF; 
+    accent-color: #03A9F4; 
+    primary-text-color: #212121; 
+    secondary-text-color: #757575; 
+    divider-color: #BDBDBD; 
+}
+.root {
+}
+
+#relojClm {
+    -fx-background-color: #9999ff;
+    -fx-border-color: #ffffff;
+}
+#llegadaAutomovil {
+    -fx-background-color: #ff9999;
+    -fx-border-color: #cccccc;
+}
+#tmpEstacionamiento {
+    -fx-background-color: #99ffcc;
+    -fx-border-color: #cccccc;
+}
+#colocaMoneda {
+    -fx-background-color: #999999;
+    -fx-border-color: #cccccc;
+}
+#estacionamientos {
+    -fx-background-color: #6699ff;
+    -fx-border-color: #cccccc;
+}
+#contador {
+    -fx-background-color: #ffcc33;
+    -fx-border-color: #cccccc;
+}
+#buttonSimular {
+    -fx-background-color: #9999ff;
+}

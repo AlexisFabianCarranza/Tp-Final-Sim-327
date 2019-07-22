@@ -22,6 +22,7 @@ import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -131,24 +132,17 @@ public class GestorSimulacion {
         if (this.horaDesdeVER == 0.0){
             this.actualizarVectorEstadoActual();
         }
-         
-        this.reloj = this.llegadaAutomovil.getHoraEvento();
         //Comienzo formal de la simulacion
         while (this.reloj <= this.horaHasta) {
             if (this.horaHasta != 0){
-                System.out.println("Comienzo a buscar Evento");
-                System.out.println("Prox evento " +this.buscarProximoEvento());
                 String proxEvento = this.buscarProximoEvento(); 
                 if (proxEvento == this.llegadaAutomovil.getEvento()){
-                    System.out.println("Llego automovil");
                     this.simularLlegadaAutomovil();
                 }
                 if (proxEvento == this.est1.getFinOcupacion().getEvento()){
-                    System.out.println("LLego a fin ocupacion");
                     this.simularFinTiempoOcupacion();
                 }
                 if (proxEvento == this.est1.getFinParquimetro().getEvento()){
-                    System.out.println("Llego a fin parquimetro");
                     this.simularFinParquimetro();
                 }
             }
@@ -172,16 +166,15 @@ public class GestorSimulacion {
         double remanente = 0.0;
         for (int i  = 0 ; i < this.estacionamientos.size(); i++){
             Estacionamiento estActual = this.estacionamientos.get(i);
-            if (estActual.estaLibre()) {
+            if (estActual.estaLibre() || estActual.tieneRemanente()) {
                 encontroLugar = true;
                 //Controlo que el estacionamiento tenga remanente
                 if (estActual.tieneRemanente()){
                     remanente = estActual.getFinParquimetro().getHoraEvento() 
-                              - estActual.getFinOcupacion().getHoraEvento();
+                              - this.reloj;
                 }
                 //Colcacion de la moneda
-                this.colocacionMoneda.generarColocacionMoneda();
-                if (this.colocacionMoneda.getDecision() == 1){
+                if (this.colocacionMoneda.decideColocar()){ 
                    this.tiempoEstacionamiento.generarTiempoParquimetro();
                    estActual.getFinParquimetro().setHoraEvento(
                            this.tiempoEstacionamiento.getTiempoParquimetro() 
@@ -190,12 +183,13 @@ public class GestorSimulacion {
                 }
                 else {
                     estActual.getFinParquimetro().setHoraEvento(
-                           remanente
+                           remanente == 0.0 ? -1 : remanente + this.reloj
                     );
                 }
                 this.tiempoEstacionamiento.generarTiempoOcupacion();
                 estActual.getFinOcupacion().setHoraEvento(
-                    this.tiempoEstacionamiento.getFinOcupacion() + this.reloj
+                    this.tiempoEstacionamiento.getFinOcupacion() 
+                  + this.reloj
                 );
                 estActual.ponerOcupado();
                 break;
@@ -203,39 +197,43 @@ public class GestorSimulacion {
         }
         // Actualizacion de contadores
         if (!encontroLugar) {
+          this.colocacionMoneda.limpiarColocaMonedas();
           this.contadorVehiculosSinLugar += 1;
         }
         this.contadorVehiculos += 1;
-        System.out.println("Finalizo Llegada Automovil");
     }
 
     public void simularFinTiempoOcupacion(){
       FinOcupacion finOcup = (FinOcupacion) this.eventos.get(0);
       this.reloj = finOcup.getHoraEvento();
       Estacionamiento estActual = finOcup.getEst();
-      estActual.calcularRemanente();
+      estActual.verificaRemanente();
       if (estActual.tieneRemanente()){
           this.acumTiempoInfracciones += estActual.getRemanente();
       }
-      estActual.ponerLibre(this.reloj);
-      
+      else {
+          estActual.ponerLibre(this.reloj);
+      }
+      this.colocacionMoneda.limpiarColocaMonedas();
+      this.tiempoEstacionamiento.limpiarTiempoEstacionamiento();
     }
 
     public void simularFinParquimetro(){
       FinParquimetro finParquimetro = (FinParquimetro) this.eventos.get(0);
       this.reloj = finParquimetro.getHoraEvento();
       Estacionamiento estActual = finParquimetro.getEst();
-      if (estActual.getFinOcupacion().getHoraEvento() > estActual.getFinParquimetro().getHoraEvento()){
+      if (estActual.verificaInfraccion()){
           //Significa que va a cometer una infraccion 
           this.contadorInfraccion += 1;
           estActual.ponerOcupadoConInfraccion();
       }
       estActual.ponerLibre(this.reloj);
+      this.tiempoEstacionamiento.limpiarTiempoEstacionamiento();
+      this.colocacionMoneda.limpiarColocaMonedas();
     }
 
     public String buscarProximoEvento(){
         Collections.sort(this.eventos);
-        this.mostrarOrdenEventos();
         this.reloj = this.eventos.get(0).getHoraEvento();
         return this.eventos.get(0).getEvento();
     }
@@ -311,4 +309,33 @@ public class GestorSimulacion {
         System.out.println("12: " + this.eventos.get(11).getEvento() + " " + this.eventos.get(11).getHoraEvento());
         System.out.println("13: " + this.eventos.get(12).getEvento() + " " + this.eventos.get(12).getHoraEvento());
     }
+
+    public int getContadorVehiculosSinLugar() {
+        return contadorVehiculosSinLugar;
+    }
+
+    public int getContadorVehiculos() {
+        return contadorVehiculos;
+    }
+
+    public int getContadorInfraccion() {
+        return contadorInfraccion;
+    }
+
+    public double getAcumTiempoInfracciones() {
+        return acumTiempoInfracciones;
+    }
+
+    public double getPorcentajeInfraccion() {
+        return this.contadorInfraccion *100 / this.contadorVehiculos;
+    }
+
+    public double getRecaudacion() {
+        return 0;
+    }
+
+    public Object getPerdidaPorInfraccion() {
+        return 0;
+    }
+    
 }

@@ -157,6 +157,16 @@ public class FXMLDocumentController implements Initializable {
     private double horasSimulacion, horaHasta, horaDesde;
     private GestorSimulacion simulador;
     private ObservableList<VectorEstadoView> estados;
+    @FXML
+    private TextField txtCantVehiculosSinLugar;
+    @FXML
+    private TextField txtPorcentajeInfraccion;
+    @FXML
+    private TextField txtRecaudacion;
+    @FXML
+    private TextField txtCantidadVehiculos;
+    @FXML
+    private TextField txtPerdidaPorInfraccion;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -226,6 +236,11 @@ public class FXMLDocumentController implements Initializable {
            simulador = new GestorSimulacion(this.horaDesde, this.horaHasta, this.horasSimulacion);
            this.estados = simulador.inicarSimulacion(); 
            tableVectorEstado.setItems(estados);
+           this.txtCantidadVehiculos.setText(String.valueOf(simulador.getContadorVehiculos()));
+           this.txtCantVehiculosSinLugar.setText(String.valueOf(simulador.getContadorVehiculosSinLugar()));
+           this.txtPorcentajeInfraccion.setText(String.format("%.0f", simulador.getPorcentajeInfraccion()) + " %");
+           this.txtRecaudacion.setText(String.valueOf(simulador.getRecaudacion()));
+           this.txtPerdidaPorInfraccion.setText(String.valueOf(simulador.getPerdidaPorInfraccion()));
            Alert dialog = new Alert(Alert.AlertType.INFORMATION);
            dialog.setTitle("Éxito");
            dialog.setHeaderText("Simulacion");

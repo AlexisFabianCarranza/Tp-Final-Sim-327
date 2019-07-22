@@ -19,13 +19,17 @@ public class ColocacionMoneda {
 
     public ColocacionMoneda() {
         this.rnd = new Random();
+        this.rndActual = -1;
     }
     
     public void generarColocacionMoneda(){
         this.rndActual = this.rnd.nextDouble();
         this.decision = this.rndActual < this.probabilidadNoColocacion ? 0 : 1;
     }
-
+    public void limpiarColocaMonedas(){
+        this.rndActual = -1;
+    }
+    
     public Random getRnd() {
         return rnd;
     }
@@ -57,6 +61,11 @@ public class ColocacionMoneda {
 
     public void setDecision(int decision) {
         this.decision = decision;
+    }
+
+    public boolean decideColocar() {
+        this.generarColocacionMoneda();
+        return this.decision == 1 ? true : false;
     }
     
     
