@@ -167,6 +167,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField txtCantidadVehiculos;
     @FXML
     private TextField txtPerdidaPorInfraccion;
+    @FXML
+    private TableColumn<?, ?> acumPaquimetro;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -228,6 +230,7 @@ public class FXMLDocumentController implements Initializable {
         this.contVehiculosColumn.setCellValueFactory(new PropertyValueFactory("contVehiculos"));
         this.contInfraColumn.setCellValueFactory(new PropertyValueFactory("contInfracciones"));
         this.contInfraColumn1.setCellValueFactory(new PropertyValueFactory("acumTiempoInfracciones"));
+        this.acumPaquimetro.setCellValueFactory(new PropertyValueFactory("acumTiempoParquimetro"));
     }    
 
     @FXML
@@ -240,7 +243,8 @@ public class FXMLDocumentController implements Initializable {
            this.txtCantVehiculosSinLugar.setText(String.valueOf(simulador.getContadorVehiculosSinLugar()));
            this.txtPorcentajeInfraccion.setText(String.format("%.0f", simulador.getPorcentajeInfraccion()) + " %");
            this.txtRecaudacion.setText(String.valueOf(simulador.getRecaudacion()));
-           this.txtPerdidaPorInfraccion.setText(String.valueOf(simulador.getPerdidaPorInfraccion()));
+           this.txtPerdidaPorInfraccion.setText(String.format("%.0f", simulador.getPerdidaPorInfraccion()) + " monedas");
+           this.txtRecaudacion.setText(String.format("%.0f", simulador.getRecaudacion()) + " monedas");
            Alert dialog = new Alert(Alert.AlertType.INFORMATION);
            dialog.setTitle("Éxito");
            dialog.setHeaderText("Simulacion");

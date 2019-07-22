@@ -49,6 +49,7 @@ public class GestorSimulacion {
     private int contadorVehiculos;
     private int contadorInfraccion;
     private double acumTiempoInfracciones;
+    private double acumTiempoPaquimetro;
 
     private ArrayList<Evento> eventos;
     private ArrayList<Estacionamiento> estacionamientos;
@@ -85,6 +86,7 @@ public class GestorSimulacion {
         this.contadorVehiculosSinLugar = 0;
         this.contadorVehiculos = 0;
         this.contadorInfraccion = 0;
+        this.acumTiempoPaquimetro = 0;
         this.eventos = new ArrayList();
         this.eventos.add(llegadaAutomovil);
         this.eventos.add(est1.getFinOcupacion());
@@ -176,12 +178,15 @@ public class GestorSimulacion {
                 //Colcacion de la moneda
                 if (this.colocacionMoneda.decideColocar()){ 
                    this.tiempoEstacionamiento.generarTiempoParquimetro();
+                   this.acumTiempoPaquimetro += this.tiempoEstacionamiento.getTiempoParquimetro();
                    estActual.getFinParquimetro().setHoraEvento(
                            this.tiempoEstacionamiento.getTiempoParquimetro() 
                          + this.reloj + remanente
                     );
                 }
                 else {
+                    this.tiempoEstacionamiento.setRndParq(-1);
+                    this.tiempoEstacionamiento.setTiempoParquimetro(-1);
                     estActual.getFinParquimetro().setHoraEvento(
                            remanente == 0.0 ? -1 : remanente + this.reloj
                     );
@@ -272,7 +277,8 @@ public class GestorSimulacion {
                 this.contadorVehiculosSinLugar, 
                 this.contadorVehiculos, 
                 this.contadorInfraccion, 
-                this.acumTiempoInfracciones);
+                this.acumTiempoInfracciones,
+                this.acumTiempoPaquimetro);
         VectorEstadoView v = new VectorEstadoView(this.vectorEstadoActual);
         this.vectoresEstados.add(v);
     }
@@ -331,11 +337,13 @@ public class GestorSimulacion {
     }
 
     public double getRecaudacion() {
-        return 0;
+        System.out.println("Acum tiempo parquimetro " + (this.acumTiempoPaquimetro / 30));
+        return this.acumTiempoPaquimetro / 30;
     }
 
-    public Object getPerdidaPorInfraccion() {
-        return 0;
+    public double getPerdidaPorInfraccion() {
+        System.out.println("Acum tiempo infracciones " + (this.acumTiempoInfracciones / 30));
+        return this.acumTiempoInfracciones / 30;
     }
     
 }
