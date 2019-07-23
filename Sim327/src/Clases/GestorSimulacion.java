@@ -175,6 +175,11 @@ public class GestorSimulacion {
                     remanente = estActual.getFinParquimetro().getHoraEvento() 
                               - this.reloj;
                 }
+                this.tiempoEstacionamiento.generarTiempoOcupacion();
+                estActual.getFinOcupacion().setHoraEvento(
+                    this.tiempoEstacionamiento.getFinOcupacion() 
+                  + this.reloj
+                );
                 //Colcacion de la moneda
                 if (this.colocacionMoneda.decideColocar()){ 
                    this.tiempoEstacionamiento.generarTiempoParquimetro();
@@ -190,12 +195,12 @@ public class GestorSimulacion {
                     estActual.getFinParquimetro().setHoraEvento(
                            remanente == 0.0 ? -1 : remanente + this.reloj
                     );
+                    if (!estActual.tieneRemanente()) {
+                        this.contadorInfraccion += 1;
+                        this.acumTiempoInfracciones += (this.tiempoEstacionamiento.getFinOcupacion());
+                    }
                 }
-                this.tiempoEstacionamiento.generarTiempoOcupacion();
-                estActual.getFinOcupacion().setHoraEvento(
-                    this.tiempoEstacionamiento.getFinOcupacion() 
-                  + this.reloj
-                );
+                
                 estActual.ponerOcupado();
                 break;
             }
@@ -203,6 +208,7 @@ public class GestorSimulacion {
         // Actualizacion de contadores
         if (!encontroLugar) {
           this.colocacionMoneda.limpiarColocaMonedas();
+          this.tiempoEstacionamiento.limpiarTiempoEstacionamiento();
           this.contadorVehiculosSinLugar += 1;
         }
         this.contadorVehiculos += 1;
@@ -213,12 +219,9 @@ public class GestorSimulacion {
       this.reloj = finOcup.getHoraEvento();
       Estacionamiento estActual = finOcup.getEst();
       estActual.verificaRemanente();
-      if (estActual.tieneRemanente()){
-          this.acumTiempoInfracciones += estActual.getRemanente();
-      }
-      else {
+      if (!estActual.tieneRemanente()){
           estActual.ponerLibre(this.reloj);
-      }
+      }    
       this.colocacionMoneda.limpiarColocaMonedas();
       this.tiempoEstacionamiento.limpiarTiempoEstacionamiento();
     }
@@ -230,9 +233,13 @@ public class GestorSimulacion {
       if (estActual.verificaInfraccion()){
           //Significa que va a cometer una infraccion 
           this.contadorInfraccion += 1;
+          this.acumTiempoInfracciones += estActual.getFinOcupacion().getHoraEvento() - estActual.getFinParquimetro().getHoraEvento();
           estActual.ponerOcupadoConInfraccion();
       }
-      estActual.ponerLibre(this.reloj);
+      else {
+          estActual.ponerLibre(this.reloj);
+      }
+      this.mostrarValores();
       this.tiempoEstacionamiento.limpiarTiempoEstacionamiento();
       this.colocacionMoneda.limpiarColocaMonedas();
     }
@@ -284,8 +291,10 @@ public class GestorSimulacion {
     }
     
     public void mostrarValores(){
+        System.out.println("*************************************************************");
         System.out.println("Reloj: " + this.reloj );
-        System.out.print("RND: " + this.llegadaAutomovil.getRndActual() );
+        System.out.println(this.eventos.get(0));
+        /*System.out.print("RND: " + this.llegadaAutomovil.getRndActual() );
         System.out.println("Tmp: " + this.llegadaAutomovil.getHoraEvento());
         System.out.print("rndparq: " + this.tiempoEstacionamiento.getRndParq());
         System.out.print("tmpparq: " + this.tiempoEstacionamiento.getTiempoParquimetro());
@@ -296,7 +305,7 @@ public class GestorSimulacion {
         System.out.println("Rnd moneda: " + this.colocacionMoneda.getRndActual());
         System.out.println("decision moneda: " + this.colocacionMoneda.getDecision());
         System.out.println("Estado1: " + this.est1.getEstado());
-        System.out.println("Estado2: " + this.est2.getEstado());
+        System.out.println("Estado2: " + this.est2.getEstado());*/
         
     }
 

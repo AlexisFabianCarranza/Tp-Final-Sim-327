@@ -87,6 +87,7 @@ public class Estacionamiento implements Comparable{
     }
     
     public void ponerOcupadoConInfraccion(){
+        this.finParquimetro.setHoraEvento(-1);
         this.estado = "OI";
     }
     

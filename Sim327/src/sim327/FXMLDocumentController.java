@@ -154,7 +154,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField txtHoraHasta;
     
-    private double horasSimulacion, horaHasta, horaDesde;
+    private double minSimulacion, minHasta, minDesde;
     private GestorSimulacion simulador;
     private ObservableList<VectorEstadoView> estados;
     @FXML
@@ -163,8 +163,6 @@ public class FXMLDocumentController implements Initializable {
     private TextField txtPorcentajeInfraccion;
     @FXML
     private TextField txtRecaudacion;
-    @FXML
-    private TextField txtCantidadVehiculos;
     @FXML
     private TextField txtPerdidaPorInfraccion;
     @FXML
@@ -236,10 +234,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void clickBtnSimular(MouseEvent event) {
         if (validarDatos()) {
-           simulador = new GestorSimulacion(this.horaDesde, this.horaHasta, this.horasSimulacion);
+           simulador = new GestorSimulacion(this.minDesde, this.minHasta, this.minSimulacion);
            this.estados = simulador.inicarSimulacion(); 
            tableVectorEstado.setItems(estados);
-           this.txtCantidadVehiculos.setText(String.valueOf(simulador.getContadorVehiculos()));
            this.txtCantVehiculosSinLugar.setText(String.valueOf(simulador.getContadorVehiculosSinLugar()));
            this.txtPorcentajeInfraccion.setText(String.format("%.0f", simulador.getPorcentajeInfraccion()) + " %");
            this.txtRecaudacion.setText(String.valueOf(simulador.getRecaudacion()));
@@ -255,9 +252,9 @@ public class FXMLDocumentController implements Initializable {
         Alert dialog = new Alert(Alert.AlertType.INFORMATION);
         dialog.setTitle("ERROR");
         try{
-            horasSimulacion = Double.parseDouble(txtHorasSimulacion.textProperty().get());
-            horaDesde = Double.parseDouble(txtHoraDesde.textProperty().get());
-            horaHasta = Double.parseDouble(txtHoraHasta.textProperty().get());
+            minSimulacion = Double.parseDouble(txtHorasSimulacion.textProperty().get());
+            minDesde = Double.parseDouble(txtHoraDesde.textProperty().get());
+            minHasta = Double.parseDouble(txtHoraHasta.textProperty().get());
         }
         catch (NumberFormatException e){
             dialog.setHeaderText("Debe cargar números");
@@ -265,13 +262,13 @@ public class FXMLDocumentController implements Initializable {
             return false;
         }
         
-        if (horasSimulacion < 0 || horaDesde < 0 || horaHasta < 0) {
+        if (minSimulacion < 0 || minDesde < 0 || minHasta < 0) {
             dialog.setHeaderText("Los números deben ser superiores a 0");
             dialog.showAndWait();
             return false;
         }
         
-        if (horaDesde >= horaHasta) {
+        if (minDesde >= minHasta) {
             dialog.setHeaderText("Intervalo invalido");
             dialog.showAndWait();
             return false;
