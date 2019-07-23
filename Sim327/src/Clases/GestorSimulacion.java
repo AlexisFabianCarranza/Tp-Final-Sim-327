@@ -49,6 +49,7 @@ public class GestorSimulacion {
     private int contadorVehiculos;
     private int contadorInfraccion;
     private double acumTiempoInfracciones;
+    private double acumTiempoPaquimetro;
 
     private ArrayList<Evento> eventos;
     private ArrayList<Estacionamiento> estacionamientos;
@@ -85,6 +86,7 @@ public class GestorSimulacion {
         this.contadorVehiculosSinLugar = 0;
         this.contadorVehiculos = 0;
         this.contadorInfraccion = 0;
+        this.acumTiempoPaquimetro = 0;
         this.eventos = new ArrayList();
         this.eventos.add(llegadaAutomovil);
         this.eventos.add(est1.getFinOcupacion());
@@ -173,24 +175,32 @@ public class GestorSimulacion {
                     remanente = estActual.getFinParquimetro().getHoraEvento() 
                               - this.reloj;
                 }
+                this.tiempoEstacionamiento.generarTiempoOcupacion();
+                estActual.getFinOcupacion().setHoraEvento(
+                    this.tiempoEstacionamiento.getFinOcupacion() 
+                  + this.reloj
+                );
                 //Colcacion de la moneda
                 if (this.colocacionMoneda.decideColocar()){ 
                    this.tiempoEstacionamiento.generarTiempoParquimetro();
+                   this.acumTiempoPaquimetro += this.tiempoEstacionamiento.getTiempoParquimetro();
                    estActual.getFinParquimetro().setHoraEvento(
                            this.tiempoEstacionamiento.getTiempoParquimetro() 
                          + this.reloj + remanente
                     );
                 }
                 else {
+                    this.tiempoEstacionamiento.setRndParq(-1);
+                    this.tiempoEstacionamiento.setTiempoParquimetro(-1);
                     estActual.getFinParquimetro().setHoraEvento(
                            remanente == 0.0 ? -1 : remanente + this.reloj
                     );
+                    if (!estActual.tieneRemanente()) {
+                        this.contadorInfraccion += 1;
+                        this.acumTiempoInfracciones += (this.tiempoEstacionamiento.getFinOcupacion());
+                    }
                 }
-                this.tiempoEstacionamiento.generarTiempoOcupacion();
-                estActual.getFinOcupacion().setHoraEvento(
-                    this.tiempoEstacionamiento.getFinOcupacion() 
-                  + this.reloj
-                );
+                
                 estActual.ponerOcupado();
                 break;
             }
@@ -198,6 +208,7 @@ public class GestorSimulacion {
         // Actualizacion de contadores
         if (!encontroLugar) {
           this.colocacionMoneda.limpiarColocaMonedas();
+          this.tiempoEstacionamiento.limpiarTiempoEstacionamiento();
           this.contadorVehiculosSinLugar += 1;
         }
         this.contadorVehiculos += 1;
@@ -208,12 +219,9 @@ public class GestorSimulacion {
       this.reloj = finOcup.getHoraEvento();
       Estacionamiento estActual = finOcup.getEst();
       estActual.verificaRemanente();
-      if (estActual.tieneRemanente()){
-          this.acumTiempoInfracciones += estActual.getRemanente();
-      }
-      else {
+      if (!estActual.tieneRemanente()){
           estActual.ponerLibre(this.reloj);
-      }
+      }    
       this.colocacionMoneda.limpiarColocaMonedas();
       this.tiempoEstacionamiento.limpiarTiempoEstacionamiento();
     }
@@ -225,9 +233,13 @@ public class GestorSimulacion {
       if (estActual.verificaInfraccion()){
           //Significa que va a cometer una infraccion 
           this.contadorInfraccion += 1;
+          this.acumTiempoInfracciones += estActual.getFinOcupacion().getHoraEvento() - estActual.getFinParquimetro().getHoraEvento();
           estActual.ponerOcupadoConInfraccion();
       }
-      estActual.ponerLibre(this.reloj);
+      else {
+          estActual.ponerLibre(this.reloj);
+      }
+      this.mostrarValores();
       this.tiempoEstacionamiento.limpiarTiempoEstacionamiento();
       this.colocacionMoneda.limpiarColocaMonedas();
     }
@@ -272,14 +284,17 @@ public class GestorSimulacion {
                 this.contadorVehiculosSinLugar, 
                 this.contadorVehiculos, 
                 this.contadorInfraccion, 
-                this.acumTiempoInfracciones);
+                this.acumTiempoInfracciones,
+                this.acumTiempoPaquimetro);
         VectorEstadoView v = new VectorEstadoView(this.vectorEstadoActual);
         this.vectoresEstados.add(v);
     }
     
     public void mostrarValores(){
+        System.out.println("*************************************************************");
         System.out.println("Reloj: " + this.reloj );
-        System.out.print("RND: " + this.llegadaAutomovil.getRndActual() );
+        System.out.println(this.eventos.get(0));
+        /*System.out.print("RND: " + this.llegadaAutomovil.getRndActual() );
         System.out.println("Tmp: " + this.llegadaAutomovil.getHoraEvento());
         System.out.print("rndparq: " + this.tiempoEstacionamiento.getRndParq());
         System.out.print("tmpparq: " + this.tiempoEstacionamiento.getTiempoParquimetro());
@@ -290,7 +305,7 @@ public class GestorSimulacion {
         System.out.println("Rnd moneda: " + this.colocacionMoneda.getRndActual());
         System.out.println("decision moneda: " + this.colocacionMoneda.getDecision());
         System.out.println("Estado1: " + this.est1.getEstado());
-        System.out.println("Estado2: " + this.est2.getEstado());
+        System.out.println("Estado2: " + this.est2.getEstado());*/
         
     }
 
@@ -331,11 +346,13 @@ public class GestorSimulacion {
     }
 
     public double getRecaudacion() {
-        return 0;
+        System.out.println("Acum tiempo parquimetro " + (this.acumTiempoPaquimetro / 30));
+        return this.acumTiempoPaquimetro / 30;
     }
 
-    public Object getPerdidaPorInfraccion() {
-        return 0;
+    public double getPerdidaPorInfraccion() {
+        System.out.println("Acum tiempo infracciones " + (this.acumTiempoInfracciones / 30));
+        return this.acumTiempoInfracciones / 30;
     }
     
 }

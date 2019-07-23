@@ -71,6 +71,7 @@ public class VectorEstado {
     private double contVehiculos;
     private double contInfracciones;
     private double acumTiempoInfracciones;
+    private double acumTiempoPaquimetro;
     private ArrayList<Double> doubles;
     
     public VectorEstado(double reloj, 
@@ -92,44 +93,8 @@ public class VectorEstado {
             String est12, double finOcupacion12, double finParquimetro12, 
             double contVehiSinLugar, double contVehiculos, 
             double contInfracciones, 
-            double acumTiempoInfracciones) {
-        /*doubles = new ArrayList<>();
-        doubles.add(this.rndLlegadaAutomovil);
-        doubles.add(this.tiempoLlegadaAutomovil);
-        doubles.add(this.proximaLlegada);
-        doubles.add(this.rndParq);
-        doubles.add(this.tiempoParquimetro);
-        doubles.add(this.rndOcup);
-        doubles.add(this.tiempoOcupacion1);
-        doubles.add(this.tiempoOcupacion2);
-        doubles.add(this.tiempoOcupacion3);
-        doubles.add(this.rndMonedas);
-        doubles.add(this.finOcupacion1);
-        doubles.add(this.finOcupacion2);
-        doubles.add(this.finOcupacion3);
-        doubles.add(this.finOcupacion4);
-        doubles.add(this.finOcupacion5);
-        doubles.add(this.finOcupacion6);
-        doubles.add(this.finOcupacion7);
-        doubles.add(this.finOcupacion8);
-        doubles.add(this.finOcupacion9);
-        doubles.add(this.finOcupacion10);
-        doubles.add(this.finOcupacion11);
-        doubles.add(this.finOcupacion12);
-        doubles.add(this.finParquimetro1);
-        doubles.add(this.finParquimetro1);
-        doubles.add(this.finParquimetro2);
-        doubles.add(this.finParquimetro3);
-        doubles.add(this.finParquimetro4);
-        doubles.add(this.finParquimetro5);
-        doubles.add(this.finParquimetro6);
-        doubles.add(this.finParquimetro7);
-        doubles.add(this.finParquimetro8);
-        doubles.add(this.finParquimetro9);
-        doubles.add(this.finParquimetro10);
-        doubles.add(this.finParquimetro11);
-        doubles.add(this.finParquimetro12);
-        doubles.add(this.acumTiempoInfracciones);*/
+            double acumTiempoInfracciones,
+            double acumTiempoPaquimetro) {
         this.reloj = reloj;
         this.rndLlegadaAutomovil = rndLlegadaAutomovil;
         this.tiempoLlegadaAutomovil = tiempoLlegadaAutomovil;
@@ -182,17 +147,12 @@ public class VectorEstado {
         this.contVehiculos = contVehiculos;
         this.contInfracciones = contInfracciones;
         this.acumTiempoInfracciones = acumTiempoInfracciones;
-        //this.limpiarDoubles();
+        this.acumTiempoPaquimetro = acumTiempoPaquimetro;
     }
-    
-    /*private void limpiarDoubles() {
-        System.out.println("Se ejecuto la limpieza de ceros");
-        for (int i = 0 ; i < this.doubles.size(); i++){
-            if (this.doubles.get(i) <= 0.0) {
-                this.doubles.set(i, 1000000.00);
-            }
-        }
-    }*/
+
+    public double getAcumTiempoPaquimetro() {
+        return acumTiempoPaquimetro;
+    }
 
     public void setReloj(double reloj) {
         this.reloj = reloj;

@@ -75,6 +75,7 @@ public class VectorEstadoView {
     private String contVehiculos;
     private String contInfracciones;
     private String acumTiempoInfracciones;
+    private String acumTiempoParquimetro;
 
     public VectorEstadoView(VectorEstado v) {
         this.reloj = String.format("%.2f", v.getReloj());
@@ -132,12 +133,22 @@ public class VectorEstadoView {
         this.contVehiculos = String.valueOf(v.getContVehiculos());
         this.contInfracciones = String.valueOf(v.getContInfracciones());
         this.acumTiempoInfracciones = String.format("%.2f", v.getAcumTiempoInfracciones());
+        this.acumTiempoParquimetro = String.format("%.2f", v.getAcumTiempoPaquimetro());
     }
     
     public String getReloj() {
         return reloj;
     }
 
+    public String getAcumTiempoParquimetro() {
+        return acumTiempoParquimetro;
+    }
+
+    public void setAcumTiempoParquimetro(String acumTiempoParquimetro) {
+        this.acumTiempoParquimetro = acumTiempoParquimetro;
+    }
+    
+    
     public void setReloj(String reloj) {
         this.reloj = reloj;
     }
